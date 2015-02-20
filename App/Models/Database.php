@@ -8,7 +8,7 @@ class Database {
     /**  Get Origin **/
     public static function getOrigin($config) {
         if (self::$origin==null) {
-            self::$origin = new MysqliDb($config['origin']['host'],$config['origin']['user'],$config['origin']['password'],$config['origin']['database']);
+            self::$origin = new MysqliDb($config['origin']['host'],$config['origin']['user'],$config['origin']['password'],$config['origin']['database'],$config['origin']['port']);
         }
         return self::$origin;
     }
@@ -16,7 +16,7 @@ class Database {
     /** Get Target **/
     public static function getTarget($config) {
         if (self::$target==null) {
-            self::$target = new MysqliDb($config['target']['host'],$config['target']['user'],$config['target']['password'],$config['target']['database']);
+            self::$target = new MysqliDb($config['target']['host'],$config['target']['user'],$config['target']['password'],$config['target']['database'],$config['target']['port']);
         }
         return self::$target;
     }

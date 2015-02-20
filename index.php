@@ -2,7 +2,6 @@
 
 // Defines
 define('ROOT_PATH', __DIR__ . "/");
-define('BEHAVIOUR', 'dbvControlVersion'); // dbvControlVersion, bothDatabase, bothFile
 
 require_once 'App/loader.php';
 
@@ -12,10 +11,8 @@ $app = new App();
 try {
     $start = microtime(true);
 
-    // Use a behaviour
-    $behaviour = BehaviourFactory::getBehaviour(BEHAVIOUR);
-    // And run!
-    $app->run($behaviour);
+    // Run!
+    $app->run();
 
     // Measure script time
     $timeElapsed = microtime(true) - $start;

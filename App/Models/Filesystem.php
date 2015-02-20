@@ -19,11 +19,32 @@ class Filesystem {
         return $directories;
     }
 
+    public static function getDirectoriesCreateIfNotExist($path) {
+
+        if (self::existsDirectory($path)) {
+            $directories = self::getDirectories($path);
+        } else {
+            self::createDirectory($path);
+            $directories = array();
+        }
+        return $directories;
+
+    }
+
     public static function createDirectory($path) {
-        $result = mkdir($path);
+        $result = mkdir($path,'0777',true);
         if ($result) {
             return $path;
         }
+        return false;
+    }
+
+    public static function existsDirectory($path) {
+
+        if (is_dir($path)) {
+            return true;
+        }
+
         return false;
     }
 

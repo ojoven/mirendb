@@ -27,13 +27,19 @@ class App {
 
     public function __construct() {
 
+        // Let's load the configuration file
+        $this->config = parse_ini_file(realpath('App/Config/config.ini'), true);
+
     }
 
-    public function run($behaviour) {
+    public function run() {
 
         /** Initial connections / configurations, they will depend on the behaviour **/
+        $behaviour = BehaviourFactory::getBehaviour($this->config['global']['behaviour']);
         $behaviour->initialize($this);
 
+        // Dynamically we may need to skip from comparing data
+        // For example, the first revision we create, it will be just a sql dump
         if (!$this->skip) {
 
             /** Generate the queries for table level differences **/

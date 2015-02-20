@@ -1,0 +1,9 @@
+#!/bin/bash
+# This will be the initializer script
+# Still need to create the structure to be best compatible with composer
+
+# Create the folder with revisions
+mkdir -p .sql/revisions
+
+# Is it Git?
+# add a pre-commit hook and a post-update hook if configs say

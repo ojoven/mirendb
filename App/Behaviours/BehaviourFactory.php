@@ -5,15 +5,15 @@ class BehaviourFactory {
     public static function getBehaviour($name) {
 
         switch ($name) {
-            case 'dbvControlVersion':
+            case 'standard_control_version':
                 // Yes, control version, there we go!
-                $behaviour = new DbvControlVersionBehaviour();
+                $behaviour = new StandardControlVersionBehaviour();
                 break;
-            case 'bothDatabase':
+            case 'both_database':
                 // If we have 2 databases to compare
                 $behaviour = new BothDatabaseBehaviour();
                 break;
-            case 'bothFile':
+            case 'both_file':
                 // If we have 2 sql dump files to compare
                 $behaviour = new BothFileBehaviour();
                 break;

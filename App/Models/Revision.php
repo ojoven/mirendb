@@ -34,7 +34,7 @@ class Revision {
 
     public function deleteCurrentRevision($app) {
         $path = ROOT_PATH . $app->config['files']['pathToRevisions'] . $app->currentRevision;
-        Filesystem::deleteDirectory($path);
+        //Filesystem::deleteDirectory($path);
     }
 
 
