@@ -1,10 +1,16 @@
 #!/bin/bash
 # This will be the initializer script
-# Still need to create the structure to be best compatible with composer
 
-# Create the folder with revisions
-mkdir -p revisions;
-echo "installed!";
+# Let's move the project to .sql root folder
+mv .sql/ojoven/sqldiffgenerator/* .sql/
+
+# Remove non necessary folders
+rm -r .sql/ojoven
+rm -r .sql/composer
+
+mkdir -p .sql/revisions
+echo "SQL Diff Generator successfully installed!\n"
+echo "Please check .sql/App/Config/config.ini to customize it\n"
 
 # Is it Git?
 # add a pre-commit hook and a post-update hook if configs say
