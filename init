@@ -3,7 +3,8 @@
 # Still need to create the structure to be best compatible with composer
 
 # Create the folder with revisions
-mkdir -p .sql/revisions
+mkdir -p revisions;
+echo "installed!";
 
 # Is it Git?
 # add a pre-commit hook and a post-update hook if configs say
