@@ -28,7 +28,7 @@ class App {
     public function __construct() {
 
         // Let's load the configuration file
-        $this->config = parse_ini_file(realpath('App/Config/config.ini'), true);
+        $this->config = parse_ini_file(realpath('App/config.ini'), true);
 
     }
 
