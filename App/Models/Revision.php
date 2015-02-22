@@ -5,7 +5,7 @@ class Revision {
     public function createFirstRevision($app) {
 
         $revisionNumber = "1";
-        $revisionFolder = Filesystem::createDirectory(ROOT_PATH . $app->config['control_version']['pathToRevisions'] . $revisionNumber);
+        $revisionFolder = Filesystem::createDirectory(ROOT_PATH . $app->config['control_version']['path_to_revisions'] . $revisionNumber);
         if (!$revisionFolder) throw new Exception("Folder couldn't be created");
         $finalPathDump = $revisionFolder . "/" . $app->revisionFilename;
         Database::dumpDatabase($app->target, $finalPathDump, $app->config, 'target');
@@ -13,7 +13,7 @@ class Revision {
     }
 
     public function initializeCurrentRevision($app) {
-        $revisionFolder = Filesystem::createDirectory($app->config['control_version']['pathToRevisions'] . $app->currentRevision);
+        $revisionFolder = Filesystem::createDirectory($app->config['control_version']['path_to_revisions'] . $app->currentRevision);
         if (!$revisionFolder) throw new Exception("Folder couldn't be created");
         $app->result = Result::initResult($revisionFolder . "/" . $app->revisionFilename);
     }
@@ -23,7 +23,7 @@ class Revision {
         $finalQuery = "";
         foreach ($revisions as $revision) {
 
-            $filename = ROOT_PATH . $app->config['control_version']['pathToRevisions'] . $revision . "/" . $app->revisionFilename;
+            $filename = ROOT_PATH . $app->config['control_version']['path_to_revisions'] . $revision . "/" . $app->revisionFilename;
             $finalQuery .= file_get_contents($filename);
             $finalQuery .= "\n\n";
 
@@ -33,7 +33,7 @@ class Revision {
     }
 
     public function deleteCurrentRevision($app) {
-        $path = ROOT_PATH . $app->config['control_version']['pathToRevisions'] . $app->currentRevision;
+        $path = ROOT_PATH . $app->config['control_version']['path_to_revisions'] . $app->currentRevision;
         Filesystem::deleteDirectory($path);
     }
 
