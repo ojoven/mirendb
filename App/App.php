@@ -28,7 +28,13 @@ class App {
     public function __construct() {
 
         // Let's load the configuration file
-        $this->config = parse_ini_file(realpath('App/config.ini'), true);
+        $configFile = realpath('App/config.ini');
+        if (!file_exists($configFile)) {
+            throw new Exception("You must set up first the .sql/App/Config.ini.default and rename it to config.ini");
+        }
+
+        $this->config = parse_ini_file($configFile, true);
+
 
     }
 

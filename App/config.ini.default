@@ -17,41 +17,42 @@
 ; laravel_control_version [nyi] -> behave as a tool to track SQL revisions in the format of Laravel migrations
 ; flyway_control_version [nyi] -> behave as a tool to track SQL revisions in the format of Flyway migrations
 ; dbv_control_version [nyi] -> behave as a tool to track SQL revisions in the format of Dbv revisions
-behaviour=standard_control_version
+behaviour=**behaviour**
 
 ; DATA
 ; Shall we compare and extract the diff just of the tables schema, or to the data, too
 ; options: false, true (default = true)
-data=1
+data=**data**
 
 ; ORIGIN (REVISIONS)
 ; Data for the connection to the revisions database
 ; We'll create a revisions database with the previous revisions...
 ; ...so we can compare the schema and data between both of them. Your user must have granted permissions to create databases
 [origin]
-host=localhost
-port=3306
-user=root
-password=
-database=wp_test_revisions
+host=**origin_host**
+port=**origin_port**
+user=**origin_user**
+password=**origin_password**
+database=**origin_database**
 
 ; TARGET
 ; Data for the connection to the target database
 ; This will be the database that will be under control version
 [target]
-host=localhost
-port=3306
-user=root
-password=
-database=wp_test
+host=**target_host**
+port=**target_port**
+user=**target_user**
+password=**target_password**
+database=**target_database**
 
 ; CUSTOM CONFIGURATIONS
 
 ; CONTROL VERSION BEHAVIOUR
 [control_version]
 path_to_revisions=revisions
-add_export_hook=1
-add_import_hook=1
+control_version=**control_version**
+add_export_hook=**export_hook**
+add_import_hook=**import_hook**
 
 ; BOTH FILE BEHAVIOUR
 ; Please uncomment these if you're going to use it with the both file behaviour
@@ -65,5 +66,5 @@ add_import_hook=1
 ; Useful if you use XAMPP or similar
 ; For XAMPP users, you should use /opt/lampp/bin/mysql and /opt/lampp/bin/mysqldump paths
 [bins]
-mysql=/opt/lampp/htdocs/mysql
-mysqldump=/opt/lampp/htdocs/mysqldump
+mysql=**mysql_path**
+mysqldump=**mysqldump_path**

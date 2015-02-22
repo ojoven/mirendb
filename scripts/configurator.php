@@ -57,7 +57,7 @@ $params['data'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUs
 /** STEP 5: Environment **/
 ScriptFunctions::title("5. Environment");
 $xampp = ScriptFunctions::trueOrFalseDefaultFalse(ScriptFunctions::getUserInputValueFor("Are you using XAMPP?","N","y/N"));
-$suffix = ($xampp) ? "/opt/lampp/htdocs/" : "";
+$suffix = ($xampp) ? "/opt/lampp/bin/" : "";
 $params['mysql_path'] = $suffix . "mysql";
 $params['mysqldump_path'] = $suffix . "mysqldump";
 
@@ -72,8 +72,7 @@ foreach ($params as $index=>$value) {
     // Let's update the values
     $config = str_replace($tag,$value,$config);
 }
-file_put_contents($configFilePath,$config);
-copy($configFilePath,$finalConfigFilePath);
+file_put_contents($finalConfigFilePath,$config);
 
 /** FINISH */
 ScriptFunctions::title("FINISHED!");
