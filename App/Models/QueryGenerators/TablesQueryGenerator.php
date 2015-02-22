@@ -12,7 +12,7 @@ class TablesQueryGenerator extends QueryGenerator {
             $data = self::_addComment($data, "Table `" . $newTable . "`");
 
             // We'll use mysqldump via exec
-            $command = $config['path']['mysqldump'] . " -v -u " . $config['target']['user'] . " -h " .$config['target']['host'];
+            $command = $config['bins']['mysqldump'] . " -v -u " . $config['target']['user'] . " -h " .$config['target']['host'];
             if ($config['target']['password']!="") $command .= " -p " . $config['target']['password'];
             $command .= " --skip-comments --compact " . $target->getDbName() . " " .$newTable . " | grep -v '^\/\*![0-9]\{5\}.*\/;$'"; // remove comments
             $data .= shell_exec($command);
