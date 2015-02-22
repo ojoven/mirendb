@@ -9,7 +9,9 @@ require_once 'Lib/ScriptFunctions.php';
 exec("mkdir .sql");
 
 // Move everything from our project to that folder
-exec("mv vendor/ojoven/sqldiffgenerator/{.,}* .sql/");
+exec("mv vendor/ojoven/sqldiffgenerator/* .sql/");
+// Necessary for hidden files
+exec("mv vendor/ojoven/sqldiffgenerator/.* .sql/");
 
 // Let's move the .sqlignore file to parent root
 exec("mv .sql/.sqlignore ./");
