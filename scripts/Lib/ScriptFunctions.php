@@ -12,12 +12,12 @@ class ScriptFunctions {
         return $line;
     }
 
-    public static function getUserInputValueFor($message,$default) {
-        echo $message. " [" . $default . "]: ";
+    public static function getUserInputValueFor($message, $default, $inputOptions = false) {
+        echo ($inputOptions===false) ? $message . " [" . $default . "]: " : $message  . " [" . $inputOptions . "]: ";
         $handle = fopen ("php://stdin","r");
         $line = fgets($handle);
-        if (trim($line)=="") $line = $default;
-        return $line;
+        if (trim($line)=="" && $default) $line = $default;
+        return trim($line);
     }
 
     public static function showMessageLine($message) {
@@ -58,6 +58,13 @@ class ScriptFunctions {
     public static function trueOrFalseDefaultFalse($input) {
         $input = strtolower(trim($input));
         return ($input=="yes" || $input=="y") ? true : false;
+    }
+
+    public static function returnOneOfTheOptionsOrDefault($default,$options,$input) {
+        if (!in_array($input,$options)) {
+            return $default;
+        }
+        return $input;
     }
 
 

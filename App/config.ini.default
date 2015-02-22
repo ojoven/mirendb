@@ -22,29 +22,20 @@ behaviour=standard_control_version
 ; DATA
 ; Shall we compare and extract the diff just of the tables schema, or to the data, too
 ; options: false, true (default = true)
-data=true
+data=1
 
-; SQL IGNORE FILE [nyi]
-; What tables should we ignore from being under version control
-; Path to file from root folder
-; The format would be like this:
-; my_table -> won't add my_table under version control
-; my_table[data] -> will add the schema under version control, but ignore its data
-; my_*[data] -> You can use * as a pattern for multiple tables
-.sqlignore=.sqlignore
-
-; ORIGIN (auxiliar, but needed)
-; Data for the connection to the origin database
-; If control version behaviour, with single - target - database, we'll create an origin database with the previous revisions...
+; ORIGIN (REVISIONS)
+; Data for the connection to the revisions database
+; We'll create a revisions database with the previous revisions...
 ; ...so we can compare the schema and data between both of them. Your user must have granted permissions to create databases
 [origin]
 host=localhost
 port=3306
 user=root
 password=
-database=sqldiff_origin
+database=wp_test_revisions
 
-; TARGET (important, the one!)
+; TARGET
 ; Data for the connection to the target database
 ; This will be the database that will be under control version
 [target]
@@ -59,27 +50,20 @@ database=wp_test
 ; CONTROL VERSION BEHAVIOUR
 [control_version]
 path_to_revisions=revisions
-
-; STANDARD PROTOCOL
-; Other protocols [nyi]
-; [protocol_dbv]
-; [protocol_laravel]
+add_export_hook=1
+add_import_hook=1
 
 ; BOTH FILE BEHAVIOUR
 ; Please uncomment these if you're going to use it with the both file behaviour
 ; [both_file]
-; originFile=/path/to/origin.sql
-; targetFile=/path/to/target.sql
+; origin_file=/path/to/origin.sql
+; target_file=/path/to/target.sql
 
 ; BOTH DATABASE BEHAVIOUR
-; Please uncomment these if you're going to use it with the both database behaviour
-; [both_database]
-; originFile=/path/to/origin.sql
-; targetFile=/path/to/target.sql
 
 ; BINs
 ; Useful if you use XAMPP or similar
 ; For XAMPP users, you should use /opt/lampp/bin/mysql and /opt/lampp/bin/mysqldump paths
 [bins]
-mysql=mysql2
-mysqldump=mysqldump2
+mysql=/opt/lampp/htdocs/mysql
+mysqldump=/opt/lampp/htdocs/mysqldump

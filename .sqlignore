@@ -1,1 +1,7 @@
-# here we'll put those tables we won't include under version control
+# What tables / data we won't include under version control
+# Don't add my_table under version control
+# my_table
+# Add the schema under version control, but ignore its data
+# my_table[data]
+# You can use * as a pattern for multiple tables
+# my_*[data]
