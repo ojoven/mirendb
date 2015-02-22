@@ -49,7 +49,7 @@ database=**target_database**
 
 ; CONTROL VERSION BEHAVIOUR
 [control_version]
-path_to_revisions=revisions
+path_to_revisions=revisions/
 control_version=**control_version**
 add_export_hook=**export_hook**
 add_import_hook=**import_hook**
