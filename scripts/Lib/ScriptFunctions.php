@@ -21,23 +21,23 @@ class ScriptFunctions {
 
     public static function highlightMessage($message,$decorator) {
         $multiplier = ceil(strlen($message)/strlen($decorator));
-        writeBreakLine();
-        showMessageLine(str_repeat($decorator,$multiplier + 6));
-        showMessageLine(str_repeat($decorator,2) . " " . $message . " " . str_repeat($decorator,2));
-        showMessageLine(str_repeat($decorator,$multiplier + 6));
-        writeBreakLine();
+        self::writeBreakLine();
+        self::showMessageLine(str_repeat($decorator,$multiplier + 6));
+        self::showMessageLine(str_repeat($decorator,2) . " " . $message . " " . str_repeat($decorator,2));
+        self::showMessageLine(str_repeat($decorator,$multiplier + 6));
+        self::writeBreakLine();
     }
 
     public static function underlineMessage($message,$decorator) {
         $multiplier = ceil(strlen($message)/strlen($decorator));
-        writeBreakLine();
-        showMessageLine($message);
-        showMessageLine(str_repeat($decorator,$multiplier));
-        writeBreakLine();
+        self::writeBreakLine();
+        self::showMessageLine($message);
+        self::showMessageLine(str_repeat($decorator,$multiplier));
+        self::writeBreakLine();
     }
 
     public static function title($message) {
-        highlightMessage($message,"=");
+        self::highlightMessage($message,"=");
     }
 
 // Parse user input
