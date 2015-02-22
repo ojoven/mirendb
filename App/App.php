@@ -34,8 +34,6 @@ class App {
         }
 
         $this->config = parse_ini_file($configFile, true);
-
-
     }
 
     public function run() {

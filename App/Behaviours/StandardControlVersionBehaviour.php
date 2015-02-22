@@ -15,11 +15,7 @@ class StandardControlVersionBehaviour implements Behaviour {
         $revisionModel = new Revision();
 
         // Let's retrieve the current revisions
-        echo ROOT_PATH . $app->config['control_version']['path_to_revisions']. PHP_EOL;
         $revisions = Filesystem::getDirectoriesCreateIfNotExist(ROOT_PATH . $app->config['control_version']['path_to_revisions']);
-        print_r($revisions);
-        throw new Exception();
-        return;
 
         // If no revisions
         if (empty($revisions)) {
