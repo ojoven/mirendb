@@ -4,6 +4,7 @@
 
 class ScriptFunctions {
 
+    /** Messages **/
     public static function showMessageAndReturnInput($message) {
         echo $message. " ";
         $handle = fopen ("php://stdin","r");
@@ -40,7 +41,7 @@ class ScriptFunctions {
         self::highlightMessage($message,"=");
     }
 
-// Parse user input
+    // Parse user input
     public static function trueOrFalseDefaultTrue($input) {
         $input = strtolower(trim($input));
         return ($input=="no" || $input=="n") ? false : true;
@@ -51,5 +52,22 @@ class ScriptFunctions {
         return ($input=="yes" || $input=="y") ? true : false;
     }
 
+
+    /** Filesystem **/
+    public static function getDirectories($path) {
+
+        $results = scandir($path);
+        $directories = array();
+
+        foreach ($results as $result) {
+            if ($result === '.' or $result === '..') continue;
+
+            if (is_dir($path . '/' . $result)) {
+                array_push($directories,$result);
+            }
+        }
+
+        return $directories;
+    }
 
 }
