@@ -12,6 +12,14 @@ class ScriptFunctions {
         return $line;
     }
 
+    public static function getUserInputValueFor($message,$default) {
+        echo $message. " [" . $default . "]: ";
+        $handle = fopen ("php://stdin","r");
+        $line = fgets($handle);
+        if (trim($line)=="") $line = $default;
+        return $line;
+    }
+
     public static function showMessageLine($message) {
         echo $message . PHP_EOL;
     }
@@ -29,7 +37,7 @@ class ScriptFunctions {
         self::writeBreakLine();
     }
 
-    public static function underlineMessage($message,$decorator) {
+    public static function underlineMessage($message,$decorator = '-') {
         $multiplier = ceil(strlen($message)/strlen($decorator));
         self::writeBreakLine();
         self::showMessageLine($message);

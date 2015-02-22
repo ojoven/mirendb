@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo $(find "scripts/Lib/$@" -type d | wc -l)
