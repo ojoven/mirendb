@@ -92,6 +92,7 @@ if ($params['export_hook'] && $params['control_version']=="git") {
     // If existing pre-commit hook
     // TODO: check if there's already a Hook of ir Git is not installed
     file_put_contents($preCommitHook,$gitPrecommitHook);
+    chmod($preCommitHook,0775);
 }
 
 
