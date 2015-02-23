@@ -32,7 +32,7 @@ class Filesystem {
     }
 
     public static function createDirectory($path) {
-        $result = mkdir($path,'0777',true);
+        $result = mkdir($path,0755,true);
         if ($result) {
             return $path;
         }

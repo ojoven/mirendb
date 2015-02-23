@@ -55,7 +55,7 @@ class App {
             // TODO: Still missing the queries for when we change a field's features: from varchar to text, null to is not null
 
             /** Generate the queries for data level differences **/
-            if ($this->config['compare']['data']) {
+            if ($this->config['global']['data']) {
                 $dataComparator = new OptimizedDataComparator();
                 $this->sqlDiffData($dataComparator);
             }
