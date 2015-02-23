@@ -2,9 +2,13 @@
 require_once 'Lib/ScriptFunctions.php';
 
 // Some vars
-$projectName = end(explode("/", dirname ( dirname( dirname(__FILE__) ) ))); // The root folder as a possible project name
-$configFilePath = dirname ( dirname(__FILE__) ) . "/App/config.ini.default";
-$finalConfigFilePath = dirname ( dirname(__FILE__) ) . "/App/config.ini";
+$sqlRootPath = dirname ( dirname(__FILE__) );
+$projectRootPath = dirname ( $sqlRootPath );
+$projectName = end(explode("/", $projectRootPath)); // The project's root folder as a possible project name
+$configFilePath =  $sqlRootPath . "/App/config.ini.default";
+$finalConfigFilePath = $sqlRootPath . "/App/config.ini";
+$preCommitHookPlaceholder = $sqlRootPath . "/scripts/hooks/git-pre-commit";
+$preCommitHook = $projectRootPath . ".git/hooks/pre-commit";
 if (!file_exists($configFilePath)) {
     ScriptFunctions::showMessageLine("Your config file .sql/App/config.ini.default doesn't exist");
     exit;
@@ -58,6 +62,7 @@ $params['data'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUs
 ScriptFunctions::title("5. Environment");
 $xampp = ScriptFunctions::trueOrFalseDefaultFalse(ScriptFunctions::getUserInputValueFor("Are you using XAMPP?","N","y/N"));
 $suffix = ($xampp) ? "/opt/lampp/bin/" : "";
+$params['php_path'] = $suffix . "php";
 $params['mysql_path'] = $suffix . "mysql";
 $params['mysqldump_path'] = $suffix . "mysqldump";
 
@@ -73,6 +78,24 @@ foreach ($params as $index=>$value) {
     $config = str_replace($tag,$value,$config);
 }
 file_put_contents($finalConfigFilePath,$config);
+
+
+/** Let's add the HOOKS, too **/
+// Pre-commit hook
+if ($params['export_hook'] && $params['control_version']=="git") {
+
+    $gitPrecommitHook = file_get_contents($preCommitHookPlaceholder);
+
+    // Let's change the tag **php_path**
+    $gitPrecommitHook = str_replace("**php_path**",$params['php_path'],$gitPrecommitHook);
+
+    // If existing pre-commit hook
+    // TODO: check if there's already a Hook of ir Git is not installed
+    file_put_contents($preCommitHook,$gitPrecommitHook);
+}
+
+
+
 
 /** FINISH */
 ScriptFunctions::title("FINISHED!");

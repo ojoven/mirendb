@@ -4,6 +4,10 @@ class BothFileBehaviour implements Behaviour {
 
     public function initialize($app) {
 
+        // Not sure if we should get rid of this one, and just use the ControlVersion behaviours
+        // For the moment, this is not working
+        throw new Exception("This behaviour is not working for the moment");
+
         // Let's retrieve the configuration options
         $app->config = parse_ini_file(realpath('App/Configs/' . get_class($this) . '/config.ini'), true);
 

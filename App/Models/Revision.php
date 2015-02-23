@@ -13,7 +13,7 @@ class Revision {
     }
 
     public function initializeCurrentRevision($app) {
-        $revisionFolder = Filesystem::createDirectory($app->config['control_version']['path_to_revisions'] . $app->currentRevision);
+        $revisionFolder = Filesystem::createDirectory(ROOT_PATH . $app->config['control_version']['path_to_revisions'] . $app->currentRevision);
         if (!$revisionFolder) throw new Exception("Folder couldn't be created");
         $app->result = Result::initResult($revisionFolder . "/" . $app->revisionFilename);
     }

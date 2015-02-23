@@ -77,6 +77,7 @@ class StandardControlVersionBehaviour implements Behaviour {
 
         // TODO: Validate the config file
         // If not valid, throw new Exception();
+        // Validate hooks, are they really added?
 
     }
 

@@ -1,0 +1,11 @@
+#!/bin/bash
+# TODO: Check if already added
+
+# Get the root path of the project
+rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
+
+# Let's call the export revision script
+**php_path** $rootPath/.sql/export_revision.php
+
+# Let's add any possible generated revision to git repo
+git add $rootPath/.sql/revisions

@@ -28,7 +28,7 @@ class App {
     public function __construct() {
 
         // Let's load the configuration file
-        $configFile = realpath('App/config.ini');
+        $configFile = ROOT_PATH . 'App/config.ini';
         if (!file_exists($configFile)) {
             throw new Exception("You must set up first the .sql/App/Config.ini.default and rename it to config.ini");
         }

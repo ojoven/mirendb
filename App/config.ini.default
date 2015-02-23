@@ -66,5 +66,6 @@ add_import_hook=**import_hook**
 ; Useful if you use XAMPP or similar
 ; For XAMPP users, you should use /opt/lampp/bin/mysql and /opt/lampp/bin/mysqldump paths
 [bins]
+php=**php_path**
 mysql=**mysql_path**
 mysqldump=**mysqldump_path**
