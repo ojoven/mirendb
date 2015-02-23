@@ -8,7 +8,7 @@ $projectName = end(explode("/", $projectRootPath)); // The project's root folder
 $configFilePath =  $sqlRootPath . "/App/config.ini.default";
 $finalConfigFilePath = $sqlRootPath . "/App/config.ini";
 $preCommitHookPlaceholder = $sqlRootPath . "/scripts/hooks/git-pre-commit";
-$preCommitHook = $projectRootPath . ".git/hooks/pre-commit";
+$preCommitHook = $projectRootPath . "/.git/hooks/pre-commit";
 if (!file_exists($configFilePath)) {
     ScriptFunctions::showMessageLine("Your config file .sql/App/config.ini.default doesn't exist");
     exit;
