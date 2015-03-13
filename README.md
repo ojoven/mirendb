@@ -8,9 +8,9 @@ Not just the schema but the data, too.
 
 Please check an example included in this repo (sql folder):
 
-[target.sql](https://github.com/ojoven/sqldiffgenerator/tree/master/sql/target.sql) -
-[origin.sql](https://github.com/ojoven/sqldiffgenerator/tree/master/sql/origin.sql) =
-[result.sql](https://github.com/ojoven/sqldiffgenerator/tree/master/sql/result.sql)
+[target.sql](https://github.com/ojoven/mirendb/tree/master/sql/target.sql) -
+[origin.sql](https://github.com/ojoven/mirendb/tree/master/sql/origin.sql) =
+[result.sql](https://github.com/ojoven/mirendb/tree/master/sql/result.sql)
 
 The final aim of this is to use it as a tool for version control, compatible with [FlyWayDB](http://flywaydb.org) or [DBV](https://github.com/victorstanciu/dbv).
 
@@ -30,7 +30,7 @@ This behaviour is the real final aim of this project, as a tool to ease the data
 
 How to use it
 ----------------
-1. Clone this repo: git clone https://github.com/ojoven/sqldiffgenerator.git
+1. Clone this repo: git clone https://github.com/ojoven/mirendb.git
 2. Select your desired behaviour by changing the define BEHAVIOUR on index.php
 3. Change the credentials and paths in App/Configs/[YourDesiredBehaviour]/Config.ini
 4. Run the index.php file, it will generate the result.sql file with the differences between target - origin DBs, or generate new revision files if the behaviour selected is a control version one.
