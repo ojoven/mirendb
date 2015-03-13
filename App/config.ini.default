@@ -24,6 +24,10 @@ behaviour=**behaviour**
 ; options: false, true (default = true)
 data=**data**
 
+; LOG
+; Do you want the script to log what the App is doing
+log=**log**
+
 ; ORIGIN (REVISIONS)
 ; Data for the connection to the revisions database
 ; We'll create a revisions database with the previous revisions...

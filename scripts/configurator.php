@@ -58,14 +58,17 @@ $behaviour = ScriptFunctions::returnOneOfTheOptionsOrDefault("standard",array('s
 $params['behaviour'] = $behaviour . "_control_version";
 $params['data'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to have data - apart from schemas - under version control?","Y","Y/n"));
 
-/** STEP 5: Environment **/
-ScriptFunctions::title("5. Environment");
+/** STEP 5: Others - Environment, logging **/
+ScriptFunctions::title("5. Others");
+// XAMPP
 $xampp = ScriptFunctions::trueOrFalseDefaultFalse(ScriptFunctions::getUserInputValueFor("Are you using XAMPP?","N","y/N"));
 $suffix = ($xampp) ? "/opt/lampp/bin/" : "";
 $params['php_path'] = $suffix . "php";
 $params['mysql_path'] = $suffix . "mysql";
 $params['mysqldump_path'] = $suffix . "mysqldump";
 
+// Logs
+$params['log'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to log on console a friendly resume of the revisions?","Y","Y/n"));
 
 /** CREATE THE FINAL config.ini FILE */
 $config = file_get_contents($configFilePath);

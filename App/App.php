@@ -154,4 +154,13 @@ class App {
 
     }
 
+    /** AUXILIAR **/
+    public function log($message) {
+
+        if ($this->config['global']['log']) {
+            echo $message . PHP_EOL;
+        }
+
+    }
+
 }

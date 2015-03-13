@@ -16,7 +16,7 @@ try {
 
     // Measure script time
     $timeElapsed = microtime(true) - $start;
-    echo round($timeElapsed,2) . "s elapsed" . PHP_EOL;
+    $app->log(round($timeElapsed,2) . "s elapsed");
 
 } catch (Exception $e) {
 
