@@ -3,8 +3,12 @@ List of things to do:
 * ~~Integrate it with composer~~
 * ~~Add a initializer script, that can be used by the user as a human understandable configuration setting~~
 * ~~In config.ini add control version configurations (git vs. svn)~~
-* Add git commits to integrate into the workflow
+* ~~Add git commits to integrate into the workflow~~
 * Add .sqlignore, like a .gitignore for DB, LOL
+* Logging console so the dev knows what's changing on DB
 * If it's a WP based project, we should change paths and absolute URLs
+* import_revisions.php
+* manage restore previous revisions
+* manage merging (seems complex!)
 * Add behaviours for Flyway and Laravel migrations (though, needs to be said, this should work by itself without these tools)
 * Task Grunt, gulp
