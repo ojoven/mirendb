@@ -27,7 +27,7 @@ if ($numVendors>1) {
 }
 
 /** Messages **/
-ScriptFunctions::underlineMessage("SQL Diff Generator successfully Installed!",'-');
+ScriptFunctions::underlineMessage("MirenDB successfully Installed!",'-');
 ScriptFunctions::showMessageLine("This is a control version system for your database.");
 ScriptFunctions::showMessageLine("You can fork this project on http://github.com/ojoven/mirendb");
 ScriptFunctions::highlightMessage("Remember to set your configuration on .sql/App/config.ini or to run \"php .sql/scripts/configurator.php\"","=");
