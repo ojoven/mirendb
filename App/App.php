@@ -77,6 +77,7 @@ class App {
         if ($this->removedTablesTarget) {
             $data = TablesQueryGenerator::generateQueryRemovedTables($this->removedTablesTarget);
             Result::addToResult($data);
+            $this->log(count($this->removedTablesTarget) . "table(s) removed"); // Implode?
         }
 
         // New Tables
@@ -84,6 +85,7 @@ class App {
         if ($this->newTablesTarget) {
             $data = TablesQueryGenerator::generateQueryNewTables($this->newTablesTarget,$this->target,$this->config);
             Result::addToResult($data);
+            $this->log(count($this->newTablesTarget) . "table(s) added");  // Implode?
         }
 
     }

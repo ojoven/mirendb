@@ -22,6 +22,7 @@ class StandardControlVersionBehaviour implements Behaviour {
 
             // No diff comparator, we just dump a whole first revision
             $revisionModel->createFirstRevision($app);
+            $app->log('[revision 1] database dumped');
             $app->skip = true;
             $app->firstRevision = true;
             return;
@@ -66,9 +67,6 @@ class StandardControlVersionBehaviour implements Behaviour {
         }
 
         Database::deleteDatabase($app->config['origin']['database'],$app->config,'origin');
-
-        // Simple output
-        echo "Script run successfully!" . PHP_EOL;
 
     }
 
