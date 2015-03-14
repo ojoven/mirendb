@@ -15,7 +15,7 @@ if (!file_exists($configFilePath)) {
 }
 
 /** Messages **/
-ScriptFunctions::underlineMessage("Welcome to the Sql Diff Generator configuration assistant",'-');
+ScriptFunctions::underlineMessage("Welcome to MirenDB's configuration assistant",'-');
 ScriptFunctions::showMessageLine("Remember you can set your configuration manually on .sql/App/config.ini.default and renaming it to config.ini");
 
 // Steps

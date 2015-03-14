@@ -1,23 +1,25 @@
-SQL Diff Generator (MySQL)
+MirenDB - Control version system for your database.
 ============================
 
-Tool to generate SQL files with the differences between 2 databases.
+MirenDB is born as a tool to help developers to integrate their project's databases - not just schema, but data, too - into their control version system.
 
-This means that having an origin DB, if we apply the SQL queries in the generated file result.sql we'll get the final target DB.
-Not just the schema but the data, too.
+This may be specially useful for CMS like Wordpress, Drupal, Magento, etc. where the projects status is always defined by its data.
 
-Please check an example included in this repo (sql folder):
+Any project can take advantage of MirenDB, anyway. Even if you don't need your data to be under CVS, just your schema, MirenDB helps you forget about generating
+the migration scripts but it does it automatically. You can even integrate it with [FlyWayDB](http://flywaydb.org), [DBV](https://github.com/victorstanciu/dbv) or [Laravel migrations](http://laravel.com/).
 
-[target.sql](https://github.com/ojoven/mirendb/tree/master/sql/target.sql) -
-[origin.sql](https://github.com/ojoven/mirendb/tree/master/sql/origin.sql) =
-[result.sql](https://github.com/ojoven/mirendb/tree/master/sql/result.sql)
+Current Status
+----------------
+The current status of the project is not stable at all, we're currently developing it.
 
-The final aim of this is to use it as a tool for version control, compatible with [FlyWayDB](http://flywaydb.org) or [DBV](https://github.com/victorstanciu/dbv).
+To check a rough roadmap please go to http://github.com/ojoven/mirendb/blob/master/TODO.md
 
-Not too ready for contribution yet - composer not defined, the config.ini is the one I'm using locally, no extended docs - but I promise I'll do it better once I have it a bit more advanced.
+Important features like Importing revisions, adding a pull hook, handling multiple developers and merges, are still missing. Please feel free to contribute.
 
 Behaviours
 ----------------
+
+MirenDB includes, too, additional behaviours to use it as a tool for single SQL diff generations between 2 SQL files / databases.
 
 At this moment there are 3 different behaviours handled in the tool:
 
@@ -25,26 +27,57 @@ At this moment there are 3 different behaviours handled in the tool:
 
 2. BothFileBehaviour -> It generates a SQL file result of **the difference between 2 SQL files**.
 
-3. DbvControlVersionBehaviour -> It takes a database and **generates revision SQL files** when changes are made to it.
+3. StandardControlVersionBehaviour -> It takes a database and **generates revision SQL files** when changes are made to it.
 This behaviour is the real final aim of this project, as a tool to ease the databases control version automatically.
 
 How to use it
 ----------------
-1. Clone this repo: git clone https://github.com/ojoven/mirendb.git
-2. Select your desired behaviour by changing the define BEHAVIOUR on index.php
-3. Change the credentials and paths in App/Configs/[YourDesiredBehaviour]/Config.ini
-4. Run the index.php file, it will generate the result.sql file with the differences between target - origin DBs, or generate new revision files if the behaviour selected is a control version one.
+Please check [MirenDB Client](http://github.com/ojoven/mirendb_client) as an example of how to install the tool on any project.
 
+The main way to install it is by **using Composer**.
+
+Please copy into your project this composer.json - or integrate it in your existing one -
+
+    {
+      "name": "ojoven/mirendb_client",
+      "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/ojoven/mirendb"
+        }
+      ],
+      "require": {
+        "ojoven/mirendb": "dev-master"
+      },
+      "scripts": {
+        "post-install-cmd": "php vendor/ojoven/mirendb/scripts/post-install-cmd.php"
+      }
+    }
+
+And run:
+
+    composer install
+
+You should get something like this:
+![Composer](https://github.com/ojoven/mirendb/readme_files/composer.png "Composer")
+
+Now you must configure your project's features - DB credentials, etc. - on .sql/App/config.ini or better, run the configuration assistant:
+
+    php .sql/scripts/configurator.php
+
+A configurator will ask you in a human way your credentials and preferences:
+![MirenDB Configurator](https://github.com/ojoven/mirendb/readme_files/configurator.png "MirenDB Configurator")
+
+
+Worflow
+----------------
+The intent of MirenDB is to integrate in your workflow in the most stealthy way as possible. We've already succeeded on integrating
+it with GIT, by installing a pre-commit hook. The hook for staging - after pushing - hasn't been created yet, nor the importing revisions script.
 
 Credits
 ----------------
 We're using MySqliDB class as a wrapper for MySQL connection handling: https://github.com/joshcam/PHP-MySQLi-Database-Class
 
-How to use as a Version Control Tool
-----------------
-Just select one of the Control Version behaviours included in the project (Dbv, at this moment). Still have to study how to integrate better this tool into a continuous deployment flow.
-
-
 Contribution
 ----------------
-Please let me know your thoughts and feedback at http://twitter.com/ojoven
+Please let me know your thoughts and feedback at http://twitter.com/ojoven or write me an email to mikeltorresmail@gmail.com
