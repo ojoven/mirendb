@@ -59,14 +59,14 @@ And run:
     composer install
 
 You should get something like this:
-![Composer](https://github.com/ojoven/mirendb/readme_files/composer.png "Composer")
+![Composer](https://github.com/ojoven/mirendb/blob/master/readme_files/composer.png "Composer")
 
 Now you must configure your project's features - DB credentials, etc. - on .sql/App/config.ini or better, run the configuration assistant:
 
     php .sql/scripts/configurator.php
 
 A configurator will ask you in a human way your credentials and preferences:
-![MirenDB Configurator](https://github.com/ojoven/mirendb/readme_files/configurator.png "MirenDB Configurator")
+![MirenDB Configurator](https://github.com/ojoven/mirendb/blob/master/readme_files/configurator.png "MirenDB Configurator")
 
 
 Worflow
