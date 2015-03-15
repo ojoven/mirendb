@@ -2,6 +2,7 @@
 
 class StandardControlVersionBehaviour implements Behaviour {
 
+    /** EXPORT CAPACITIES **/
     /** Steps needed before creating a new revision **/
     public function initialize($app) {
 
@@ -76,6 +77,31 @@ class StandardControlVersionBehaviour implements Behaviour {
         // TODO: Validate the config file
         // If not valid, throw new Exception();
         // Validate hooks, are they really added?
+
+    }
+
+
+    /** IMPORT CAPACITIES **/
+    public function import($app) {
+
+        // First, we validate if the config.ini file is correct
+        $this->_validateConfigurationOptions($app);
+
+        // Let's make a backup of the current database before importing revisions
+        $app->target = Database::getTarget($app->config);
+        $databaseName = $app->config['target']['database'];
+        $pathToBackup = ROOT_PATH . "App/Backup/" . $databaseName . ".sql";
+        Database::dumpDatabase($app->target, $pathToBackup, $app->config, 'target');
+
+        // Let's retrieve the current revisions
+        $revisions = Filesystem::getDirectoriesCreateIfNotExist(ROOT_PATH . $app->config['control_version']['path_to_revisions']);
+
+        // And generate the query from it
+        $revisionModel = new Revision();
+        $query = $revisionModel->generateQueryWithRevisions($app,$revisions);
+
+        // Now we run that query
+        Database::createDatabaseFromQuery($databaseName, $query, $app->config, 'target');
 
     }
 

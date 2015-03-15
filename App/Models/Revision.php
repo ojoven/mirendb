@@ -20,6 +20,12 @@ class Revision {
 
     public function generateDatabaseWithRevisions($app,$revisions) {
 
+        $finalQuery = $this->generateQueryWithRevisions($app, $revisions);
+        Database::createDatabaseFromQuery($app->config['origin']['database'], $finalQuery, $app->config, 'origin');
+    }
+
+    public function generateQueryWithRevisions($app, $revisions) {
+
         $finalQuery = "";
         foreach ($revisions as $revision) {
 
@@ -29,7 +35,8 @@ class Revision {
 
         }
 
-        Database::createDatabaseFromQuery($app->config['origin']['database'], $finalQuery, $app->config,'origin');
+        return $finalQuery;
+
     }
 
     public function deleteCurrentRevision($app) {

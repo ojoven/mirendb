@@ -11,8 +11,8 @@ $app = new App();
 try {
     $start = microtime(true);
 
-    // Export revision. Go go go!
-    $app->export();
+    // Import revisions. Go go go!
+    $app->import();
 
     // Measure script time
     $timeElapsed = microtime(true) - $start;
