@@ -14,7 +14,7 @@ The current status of the project is not stable at all, we're currently developi
 
 To check a rough roadmap please go to http://github.com/ojoven/mirendb/blob/master/TODO.md
 
-Important features like Importing revisions, adding a pull hook, handling multiple developers and merges, are still missing. Please feel free to contribute.
+Important features like ~~Importing revisions, adding a pull hook~~, handling multiple developers and merges, are still missing. Please feel free to contribute.
 
 Behaviours
 ----------------
@@ -72,7 +72,7 @@ A configurator will ask you in a human way your credentials and preferences:
 Worflow
 ----------------
 The intent of MirenDB is to integrate in your workflow in the most stealthy way as possible. We've already succeeded on integrating
-it with GIT, by installing a pre-commit hook. The hook for staging - after pushing - hasn't been created yet, nor the importing revisions script.
+it with GIT, by installing a pre-commit and a post-merge hook.
 
 Credits
 ----------------
