@@ -66,6 +66,8 @@ So, once the hooks are installed - automatically if you run the configurator - e
 
 MirenDB checks the differences between the already stored revisions and the current DB and it generates a new revision in case they're different.
 
+![MirenDB revision](https://github.com/ojoven/mirendb/blob/master/App/Project/revision.png "MirenDB revision")
+
 At the same time, if you run:
 
     git pull --all
