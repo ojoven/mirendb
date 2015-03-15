@@ -11,14 +11,17 @@ class StandardControlVersionBehaviour implements Behaviour {
         // Connect to target database
         $app->target = Database::getTarget($app->config);
 
+        // Get tables Target
+        $app->targetTables = Database::getTablesDatabase($app->target);
+
         // Let's work with revisions
         $revisionModel = new Revision();
 
         // Let's retrieve the current revisions
         $revisions = Filesystem::getDirectoriesCreateIfNotExist(ROOT_PATH . $app->config['control_version']['path_to_revisions']);
 
-        // If no revisions
-        if (empty($revisions)) {
+        // If no revisions and database already has tables
+        if (empty($revisions) && count($app->targetTables)>0) {
 
             // No diff comparator, we just dump a whole first revision
             $revisionModel->createFirstRevision($app);
@@ -46,9 +49,6 @@ class StandardControlVersionBehaviour implements Behaviour {
 
             // Get tables Origin
             $app->originTables = Database::getTablesDatabase($app->origin);
-
-            // Get tables Target
-            $app->targetTables = Database::getTablesDatabase($app->target);
 
         }
 
