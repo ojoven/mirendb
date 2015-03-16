@@ -8,6 +8,9 @@ trait AppExporter {
         $behaviour = BehaviourFactory::getBehaviour($this->config['global']['behaviour']);
         $behaviour->initialize($this);
 
+        // SQL Ignore
+        $this->parseSqlIgnore();
+
         // Dynamically we may need to skip from comparing data
         // For example, the first revision we create, it will be just a sql dump
         if (!$this->skip) {
@@ -97,32 +100,71 @@ trait AppExporter {
 
         foreach ($this->targetTables as $table) {
 
-            // If it's not a new table, but an existing one BUT no new / removed fields
-            if (in_array($table,$this->originTables) && (!in_array($table,$this->tablesWithNewFields)) && (!in_array($table,$this->tablesWithRemovedFields))) {
+            if (!$this->isTableInSqlIgnore($table)) {
 
-                // First, we retrieve the data for the table
-                $dataOrigin = $dataComparator->getData($table,$this->origin);
-                $dataTarget = $dataComparator->getData($table,$this->target);
+                // If it's not a new table, but an existing one BUT no new / removed fields
+                if (in_array($table,$this->originTables) && (!in_array($table,$this->tablesWithNewFields)) && (!in_array($table,$this->tablesWithRemovedFields))) {
 
-                // Removed Data
-                $removedDataTableTarget = $dataComparator->getRemovedDataTarget($dataOrigin,$dataTarget);
-                if ($removedDataTableTarget) {
-                    $data = DataQueryGenerator::generateQueryRemovedData($removedDataTableTarget,$table);
-                    Result::addToResult($data);
-                    $this->log(count($removedDataTableTarget) . " rows(s) removed from " . $table);
-                }
+                    // First, we retrieve the data for the table
+                    $dataOrigin = $dataComparator->getData($table,$this->origin);
+                    $dataTarget = $dataComparator->getData($table,$this->target);
 
-                // New Data
-                $newDataTableTarget = $dataComparator->getNewDataTarget($dataOrigin,$dataTarget);
-                if ($newDataTableTarget) {
-                    $data = DataQueryGenerator::generateQueryNewData($newDataTableTarget,$table,$this->target);
-                    Result::addToResult($data);
-                    $this->log(count($newDataTableTarget) . " rows(s) added to " . $table);
+                    // Removed Data
+                    $removedDataTableTarget = $dataComparator->getRemovedDataTarget($dataOrigin,$dataTarget);
+                    if ($removedDataTableTarget) {
+                        $data = DataQueryGenerator::generateQueryRemovedData($removedDataTableTarget,$table);
+                        Result::addToResult($data);
+                        $this->log(count($removedDataTableTarget) . " rows(s) removed from " . $table);
+                    }
+
+                    // New Data
+                    $newDataTableTarget = $dataComparator->getNewDataTarget($dataOrigin,$dataTarget);
+                    if ($newDataTableTarget) {
+                        $data = DataQueryGenerator::generateQueryNewData($newDataTableTarget,$table,$this->target);
+                        Result::addToResult($data);
+                        $this->log(count($newDataTableTarget) . " rows(s) added to " . $table);
+                    }
+
                 }
 
             }
 
         }
+
+    }
+
+    /** SQL Ignore **/
+    public function parseSqlIgnore() {
+
+        $file = file(dirname(ROOT_PATH) . "/.sqlignore");
+        $sqlignore = array();
+        foreach($file as $key => $line) {
+            if ($line[0]!="#") { // comments
+                array_push($sqlignore,trim($line));
+            }
+        }
+
+        print_r($sqlignore);
+        $this->sqlignore = $sqlignore;
+
+    }
+
+    public function isTableInSqlIgnore($table) {
+
+        foreach ($this->sqlignore as $ignore) {
+
+            //  simple tables
+            if ($table==$ignore) {
+                return true;
+            }
+
+            // tables with *
+            if (strpos($ignore,"*")!==FALSE && preg_match( '/^' . $ignore . '/' , $table)) {
+                return true;
+            }
+        }
+
+        return false;
 
     }
 

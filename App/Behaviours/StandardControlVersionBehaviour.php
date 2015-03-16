@@ -91,12 +91,14 @@ class StandardControlVersionBehaviour implements Behaviour {
         if ($app->importEnv=="local") {
             $app->target = Database::getTarget($app->config);
             $databaseName = $app->config['target']['database'];
+            $pathToBackup = ROOT_PATH . "App/Backup/" . $databaseName . ".sql";
+            Database::dumpDatabase($app->target, $pathToBackup, $app->config, 'target');
         } else { // staging
-            $app->target = Database::getStaging($app->config);
+            $app->staging = Database::getStaging($app->config);
             $databaseName = $app->config['staging']['database'];
+            $pathToBackup = ROOT_PATH . "App/Backup/" . $databaseName . ".sql";
+            Database::dumpDatabase($app->staging, $pathToBackup, $app->config, 'staging');
         }
-        $pathToBackup = ROOT_PATH . "App/Backup/" . $databaseName . ".sql";
-        Database::dumpDatabase($app->target, $pathToBackup, $app->config, 'target');
 
         // Let's retrieve the current revisions
         $revisions = Filesystem::getDirectoriesCreateIfNotExist(ROOT_PATH . $app->config['control_version']['path_to_revisions']);

@@ -39,7 +39,7 @@ class Database {
     /**  Dump Database **/
     public static function dumpDatabase($database,$filename,$config,$type) {
         $command = $config['bins']['mysqldump'] . " -u " . $config[$type]['user'] . " -h " .$config[$type]['host'];
-        if ($config[$type]['password']!="") $command .= " -p " . $config[$type]['password'];
+        if ($config[$type]['password']!="") $command .= " -p" . $config[$type]['password'];
         $command .= " --skip-comments --compact " . $database->getDbName() . " | grep -v '^\/\*![0-9]\{5\}.*\/;$'"; // remove comments
         $data = shell_exec($command);
         // First, we empty the file
@@ -70,7 +70,7 @@ class Database {
 
         // Now we import the database via mysql
         $command = $config['bins']['mysql'] . " -u " . $config[$type]['user'] . " -h " .$config[$type]['host'];
-        if ($config[$type]['password']!="") $command .= " -p " . $config[$type]['password'];
+        if ($config[$type]['password']!="") $command .= " -p" . $config[$type]['password'];
         $command .= " " . $name . " < " . $tmpPath;
         $data = shell_exec($command);
         unlink($tmpPath);

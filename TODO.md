@@ -4,7 +4,7 @@ List of things to do:
 * ~~Add a initializer script, that can be used by the user as a human understandable configuration setting~~
 * ~~In config.ini add control version configurations (git vs. svn)~~
 * ~~Add git commits to integrate into the workflow~~
-* Add .sqlignore, like the .gitignore for DBs
+* ~~Add .sqlignore, like the .gitignore for DBs~~
 * ~~Logging console so the dev knows what's changing on DB~~
 * If it's a WP based project, change paths and absolute URLs
 * ~~import_revisions.php~~

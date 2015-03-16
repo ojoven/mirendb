@@ -66,6 +66,8 @@ path_to_revisions=revisions/
 control_version=**control_version**
 add_export_hook=**export_hook**
 add_import_hook=**import_hook**
+; TODO: add this to the configurator?
+keep_revisions_db=1
 
 ; BOTH FILE BEHAVIOUR
 ; Please uncomment these if you're going to use it with the both file behaviour
