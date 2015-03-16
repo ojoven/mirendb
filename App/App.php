@@ -21,6 +21,9 @@ class App {
     public $currentRevision;
     public $revisionFilename = "revision.sql";
 
+    // import environment
+    public $importEnv;
+
     // dynamic variables, based on first comparators
     public $newTablesTarget = array();
     public $removedTablesTarget = array();

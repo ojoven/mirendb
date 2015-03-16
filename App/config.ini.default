@@ -49,6 +49,15 @@ user=**target_user**
 password=**target_password**
 database=**target_database**
 
+; STAGING
+; Data for the connection to the staging database
+[staging]
+host=**staging_host**
+port=**staging_port**
+user=**staging_user**
+password=**staging_password**
+database=**staging_database**
+
 ; CUSTOM CONFIGURATIONS
 
 ; CONTROL VERSION BEHAVIOUR

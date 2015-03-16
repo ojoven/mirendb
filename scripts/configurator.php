@@ -22,15 +22,15 @@ ScriptFunctions::showMessageLine("Remember you can set your configuration manual
 
 // Steps
 /** STEP 1: Target Database **/
-ScriptFunctions::title("1. Database configuration");
+ScriptFunctions::title("1. Credentials for local database");
 $params['target_database'] = ScriptFunctions::getUserInputValueFor("Database Name",$projectName);
 $params['target_host'] = ScriptFunctions::getUserInputValueFor("Host","localhost");
 $params['target_port'] = ScriptFunctions::getUserInputValueFor("Port","3306");
 $params['target_user'] = ScriptFunctions::getUserInputValueFor("User","root");
 $params['target_password'] = ScriptFunctions::getUserInputValueFor("Password","");
 
-/** STEP 2: Origin Database **/
-ScriptFunctions::title("2. Revisions Database");
+/** STEP 1.1: Origin Database **/
+ScriptFunctions::title("1.1 Revisions Database");
 ScriptFunctions::showMessageLine("We'll need to create an auxiliary database where to import the revisions and to compare it to the database under version control");
 $auxiliaryDBName = $params['target_database'] . "_revisions";
 $params['origin_database']= ScriptFunctions::getUserInputValueFor("Auxiliary Database Name",$auxiliaryDBName);
@@ -45,6 +45,18 @@ if ($cloneMySQLCredentials) {
     $params['origin_port'] = ScriptFunctions::getUserInputValueFor("Port","3306");
     $params['origin_user'] = ScriptFunctions::getUserInputValueFor("User","root");
     $params['origin_password'] = ScriptFunctions::getUserInputValueFor("Password","");
+}
+
+/** STEP 2: Target Database **/
+ScriptFunctions::title("2. Credentials for repo database");
+ScriptFunctions::showMessageLine("In case you're using an staging server and you want its DB to be automatically updated after pushing");
+$params['use_staging_db'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want your staging DB to be automatically updated with revisions after pushing?","Y","Y/n"));
+if ($params['use_staging_db']) {
+    $params['staging_database'] = ScriptFunctions::getUserInputValueFor("Database Name",$projectName);
+    $params['staging_host'] = ScriptFunctions::getUserInputValueFor("Host","localhost");
+    $params['staging_port'] = ScriptFunctions::getUserInputValueFor("Port","3306");
+    $params['staging_user'] = ScriptFunctions::getUserInputValueFor("User","root");
+    $params['staging_password'] = ScriptFunctions::getUserInputValueFor("Password","");
 }
 
 /** STEP 3: Control Version **/
@@ -110,6 +122,8 @@ if ($params['import_hook'] && $params['control_version']=="git") {
     file_put_contents($postMergeHook,$gitPostMergeHook);
     chmod($postMergeHook,0775);
 }
+
+// TODO: If use_staging_db, add git hook
 
 
 

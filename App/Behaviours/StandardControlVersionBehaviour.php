@@ -88,8 +88,13 @@ class StandardControlVersionBehaviour implements Behaviour {
         $this->_validateConfigurationOptions($app);
 
         // Let's make a backup of the current database before importing revisions
-        $app->target = Database::getTarget($app->config);
-        $databaseName = $app->config['target']['database'];
+        if ($app->importEnv=="local") {
+            $app->target = Database::getTarget($app->config);
+            $databaseName = $app->config['target']['database'];
+        } else { // staging
+            $app->target = Database::getStaging($app->config);
+            $databaseName = $app->config['staging']['database'];
+        }
         $pathToBackup = ROOT_PATH . "App/Backup/" . $databaseName . ".sql";
         Database::dumpDatabase($app->target, $pathToBackup, $app->config, 'target');
 
@@ -101,7 +106,7 @@ class StandardControlVersionBehaviour implements Behaviour {
         $query = $revisionModel->generateQueryWithRevisions($app,$revisions);
 
         // Now we run that query
-        Database::createDatabaseFromQuery($databaseName, $query, $app->config, 'target');
+        Database::createDatabaseFromQuery($databaseName, $query, $app->config, 'staging');
 
     }
 
