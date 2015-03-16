@@ -6,9 +6,13 @@ List of things to do:
 * ~~Add git commits to integrate into the workflow~~
 * ~~Add .sqlignore, like the .gitignore for DBs~~
 * ~~Logging console so the dev knows what's changing on DB~~
-* If it's a WP based project, change paths and absolute URLs
 * ~~import_revisions.php~~
+* optimize git/svn integration workflow
 * manage restore previous revisions
 * manage merging (seems complex!)
+* If it's a WP based project, change paths and absolute URLs
 * Add behaviours for Flyway and Laravel migrations (though, needs to be said, this should work by itself without these tools)
 * Task Grunt, gulp
+
+Currently working on:
+* optimize git/svn integration workflow

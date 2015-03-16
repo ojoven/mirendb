@@ -61,9 +61,12 @@ if ($params['use_staging_db']) {
 
 /** STEP 3: Control Version **/
 ScriptFunctions::title("3. Control Version");
-$params['control_version'] = ScriptFunctions::returnOneOfTheOptionsOrDefault("git",array('git','svn','mercurial'),ScriptFunctions::getUserInputValueFor("Which Control Version System are you using? - git/svn/mercurial -","git"));
-$params['export_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically export revision when commit?","Y","Y/n"));
+$params['control_version'] = ScriptFunctions::returnOneOfTheOptionsOrDefault("git",array('git','svn'),ScriptFunctions::getUserInputValueFor("Which Control Version System are you using? - git/svn -","git"));
+$params['export_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically export revision when committing?","Y","Y/n"));
 $params['import_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically import revisions when pulling/updating?","Y","Y/n"));
+$params['import_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to activate the hooks by default (Y) or to use the suffix --database","Y","Y/n"));
+
+ScriptFunctions::showMessageLine("We'll need to create an auxiliary database where to import the revisions and to compare it to the database under version control");
 
 /** STEP 4: Behaviour **/
 ScriptFunctions::title("4. Behaviour");
