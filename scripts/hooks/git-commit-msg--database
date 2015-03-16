@@ -1,0 +1,21 @@
+#!/bin/bash
+# TODO: Check if already added
+
+# http://stackoverflow.com/questions/3284292/can-a-git-hook-automatically-add-files-to-the-commit
+# It remains the combination of commit-msg and post-commit
+
+# Get the root path of the project
+rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
+message=$(<$rootPath/$1)
+
+# If the commit message includes --database suffix we launch the script
+if [[ $message == *"--database"* ]]
+then
+  # Let's call the export revision script
+  **php_path** $rootPath/.sql/export_revision.php
+
+  # Let's add any possible generated revision to git repo
+  git add $rootPath/.sql/revisions
+  # this should go into the post-commit
+  git commit --amend --no-verify --allow-empty
+fi
