@@ -14,8 +14,6 @@ then
   # Let's call the export revision script
   **php_path** $rootPath/.sql/export_revision.php
 
-  # Let's add any possible generated revision to git repo
-  git add $rootPath/.sql/revisions
-  # this should go into the post-commit
-  git commit --amend --no-verify --allow-empty
+  # And we'll tell the post-commit hook that there's a commit pending
+  touch .commit
 fi
