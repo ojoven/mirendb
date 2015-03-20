@@ -5,8 +5,8 @@
 rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
 FILE=$rootPath/.sql/.flagcommit
 if [ -f $FILE ];
-    then
-    git add $rootPath/.sql/revisions
-    git commit --amend -C HEAD --no-verify
+then
+   rm $FILE
+   # Let's call the export revision script
+   **php_path** $rootPath/.sql/import_revisions.php
 fi
-exit

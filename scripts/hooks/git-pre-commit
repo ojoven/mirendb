@@ -9,3 +9,7 @@ rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
 
 # Let's add any possible generated revision to git repo
 git add $rootPath/.sql/revisions
+
+# We'll tell the post-merge hook that there's a commit pending
+touch $rootPath/.sql/.flagcommit
+git add $rootPath/.sql/.flagcommit

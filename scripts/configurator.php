@@ -9,17 +9,23 @@ $configFilePath =  $sqlRootPath . "/App/config.ini.default";
 $finalConfigFilePath = $sqlRootPath . "/App/config.ini";
 
 // HOOKS
+
+// Hook always
 $preCommitHookPlaceholder = $sqlRootPath . "/scripts/hooks/git-pre-commit";
 $preCommitHook = $projectRootPath . "/.git/hooks/pre-commit";
 
 $postMergeHookPlaceholder = $sqlRootPath . "/scripts/hooks/git-post-merge";
 $postMergeHook = $projectRootPath . "/.git/hooks/post-merge";
 
+// Hook just when adding --database to commit message. Ex: commit -m "added table --database"
 $commitMsgPlaceholder = $sqlRootPath . "/scripts/hooks/git-suffix-commit-msg";
 $commitMsgHook = $projectRootPath . "/.git/hooks/commit-msg";
 
 $postCommitPlaceholder = $sqlRootPath . "/scripts/hooks/git-suffix-post-commit";
 $postCommitHook = $projectRootPath . "/.git/hooks/post-commit";
+
+$postMergeSuffixPlaceholder = $sqlRootPath . "/scripts/hooks/git-suffix-post-merge";
+$postMergeSuffixHook = $projectRootPath . "/.git/hooks/post-merge";
 
 if (!file_exists($configFilePath)) {
     ScriptFunctions::showMessageLine("Your config file .sql/App/config.ini.default doesn't exist");
@@ -163,6 +169,19 @@ if ($params['hooks_always']) {
         file_put_contents($postCommitHook,$gitPostCommitHook);
         chmod($postCommitHook,0775);
 
+    }
+
+    // Post-merge Hook (pull)
+    if ($params['import_hook'] && $params['control_version']=="git") {
+
+        // Let's change the tag **php_path**
+        $gitPostMergeSuffixHook = file_get_contents($postMergeSuffixPlaceholder);
+        $gitPostMergeSuffixHook = str_replace("**php_path**",$params['php_path'],$gitPostMergeSuffixHook);
+
+        // If existing pre-commit hook
+        // TODO: check if there's already a Hook of if Git is not installed
+        file_put_contents($postMergeSuffixHook,$gitPostMergeSuffixHook);
+        chmod($postMergeSuffixHook,0775);
     }
 
 

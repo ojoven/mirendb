@@ -13,6 +13,7 @@ then
   # Let's call the export revision script
   **php_path** $rootPath/.sql/export_revision.php
 
-  # And we'll tell the post-commit hook that there's a commit pending
-  touch .commit
+  # And we'll tell the post-merge hook that there's a commit pending
+  touch $rootPath/.sql/.flagcommit
+  git add $rootPath/.sql/.flagcommit
 fi
