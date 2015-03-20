@@ -74,13 +74,11 @@ ScriptFunctions::title("3. Control Version");
 $params['control_version'] = ScriptFunctions::returnOneOfTheOptionsOrDefault("git",array('git','svn'),ScriptFunctions::getUserInputValueFor("Which Control Version System are you using? - git/svn -","git"));
 $params['export_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically export revision when committing?","Y","Y/n"));
 $params['import_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically import revisions when pulling/updating?","Y","Y/n"));
-$params['hooks_on_message'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to activate the hooks by default (Y) or to use the suffix --database in your commit messages (n) whenever you want the DB to be revisioned?","Y","Y/n"));
-
-ScriptFunctions::showMessageLine("We'll need to create an auxiliary database where to import the revisions and to compare it to the database under version control");
+$params['hooks_always'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to activate the hooks by default (Y) or to use the suffix --database in your commit messages (n) whenever you want the DB to be revisioned?","Y","Y/n"));
 
 /** STEP 4: Behaviour **/
 ScriptFunctions::title("4. Behaviour");
-ScriptFunctions::showMessageLine("You can use the Sql Diff Generator's standard methodology to export/import revisions or integrate it with another DB control versioning system");
+ScriptFunctions::showMessageLine("You can use MirenDB's standard methodology to export/import revisions or integrate it with another DB control versioning system");
 $behaviour = ScriptFunctions::returnOneOfTheOptionsOrDefault("standard",array('standard','flyway','laravel','dbv'),ScriptFunctions::getUserInputValueFor("Which behaviour do you wanna use? - standard/flyway/laravel/dbv","standard"));
 $params['behaviour'] = $behaviour . "_control_version";
 $params['data'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to have data - apart from schemas - under version control?","Y","Y/n"));
@@ -112,7 +110,7 @@ file_put_contents($finalConfigFilePath,$config);
 
 /** Let's add the HOOKS **/
 
-if (!$params['hooks_on_message']) {
+if ($params['hooks_always']) {
 
     // Pre-commit hook (commit)
     if ($params['export_hook'] && $params['control_version']=="git") {
