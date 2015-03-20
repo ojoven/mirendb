@@ -5,8 +5,8 @@
 rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
 FILE=$rootPath/.sql/.flagcommit
 if [ -f $FILE ];
-    then
+then
     git add $rootPath/.sql/revisions
     git commit --amend -C HEAD --no-verify
+    git add $rootPath/.sql/.flagcommit
 fi
-exit

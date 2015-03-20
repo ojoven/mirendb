@@ -5,4 +5,4 @@
 rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
 
 # Let's call the export revision script
-**php_path** $rootPath/.sql/import_revisions.php
+**php_path** $rootPath/.sql/import_revisions.php local

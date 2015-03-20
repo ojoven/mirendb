@@ -15,5 +15,4 @@ then
 
   # And we'll tell the post-merge hook that there's a commit pending
   touch $rootPath/.sql/.flagcommit
-  git add $rootPath/.sql/.flagcommit
 fi

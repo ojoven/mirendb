@@ -8,5 +8,5 @@ if [ -f $FILE ];
 then
    rm $FILE
    # Let's call the export revision script
-   **php_path** $rootPath/.sql/import_revisions.php
+   **php_path** $rootPath/.sql/import_revisions.php local
 fi
