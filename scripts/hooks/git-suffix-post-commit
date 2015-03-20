@@ -1,6 +1,8 @@
 #!/bin/bash
 # TODO: Check if already added
 
+rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
+
 # Let's see if there's been a commit-msg hook
 if [ -a .commit ]
     then

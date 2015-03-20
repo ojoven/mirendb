@@ -7,10 +7,20 @@ $projectRootPath = dirname ( $sqlRootPath );
 $projectName = end(explode("/", $projectRootPath)); // The project's root folder as a possible project name
 $configFilePath =  $sqlRootPath . "/App/config.ini.default";
 $finalConfigFilePath = $sqlRootPath . "/App/config.ini";
+
+// HOOKS
 $preCommitHookPlaceholder = $sqlRootPath . "/scripts/hooks/git-pre-commit";
 $preCommitHook = $projectRootPath . "/.git/hooks/pre-commit";
+
 $postMergeHookPlaceholder = $sqlRootPath . "/scripts/hooks/git-post-merge";
 $postMergeHook = $projectRootPath . "/.git/hooks/post-merge";
+
+$commitMsgPlaceholder = $sqlRootPath . "/scripts/hooks/git-suffix-commit-msg";
+$commitMsgHook = $projectRootPath . "/.git/hooks/commit-msg";
+
+$postCommitPlaceholder = $sqlRootPath . "/scripts/hooks/git-suffix-post-commit";
+$postCommitHook = $projectRootPath . "/.git/hooks/post-commit";
+
 if (!file_exists($configFilePath)) {
     ScriptFunctions::showMessageLine("Your config file .sql/App/config.ini.default doesn't exist");
     exit;
@@ -64,7 +74,7 @@ ScriptFunctions::title("3. Control Version");
 $params['control_version'] = ScriptFunctions::returnOneOfTheOptionsOrDefault("git",array('git','svn'),ScriptFunctions::getUserInputValueFor("Which Control Version System are you using? - git/svn -","git"));
 $params['export_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically export revision when committing?","Y","Y/n"));
 $params['import_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically import revisions when pulling/updating?","Y","Y/n"));
-$params['import_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to activate the hooks by default (Y) or to use the suffix --database","Y","Y/n"));
+$params['hooks_on_message'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to activate the hooks by default (Y) or to use the suffix --database in your commit messages (n) whenever you want the DB to be revisioned?","Y","Y/n"));
 
 ScriptFunctions::showMessageLine("We'll need to create an auxiliary database where to import the revisions and to compare it to the database under version control");
 
@@ -100,33 +110,67 @@ foreach ($params as $index=>$value) {
 file_put_contents($finalConfigFilePath,$config);
 
 
-/** Let's add the HOOKS, too **/
-// Pre-commit hook
-if ($params['export_hook'] && $params['control_version']=="git") {
+/** Let's add the HOOKS **/
 
-    // Let's change the tag **php_path**
-    $gitPrecommitHook = file_get_contents($preCommitHookPlaceholder);
-    $gitPrecommitHook = str_replace("**php_path**",$params['php_path'],$gitPrecommitHook);
+if (!$params['hooks_on_message']) {
 
-    // If existing pre-commit hook
-    // TODO: check if there's already a Hook of ir Git is not installed
-    file_put_contents($preCommitHook,$gitPrecommitHook);
-    chmod($preCommitHook,0775);
+    // Pre-commit hook (commit)
+    if ($params['export_hook'] && $params['control_version']=="git") {
+
+        // Let's change the tag **php_path**
+        $gitPrecommitHook = file_get_contents($preCommitHookPlaceholder);
+        $gitPrecommitHook = str_replace("**php_path**",$params['php_path'],$gitPrecommitHook);
+
+        // If existing pre-commit hook
+        // TODO: check if there's already a Hook of if Git is not installed
+        file_put_contents($preCommitHook,$gitPrecommitHook);
+        chmod($preCommitHook,0775);
+    }
+
+    // Post-merge Hook (pull)
+    if ($params['import_hook'] && $params['control_version']=="git") {
+
+        // Let's change the tag **php_path**
+        $gitPostMergeHook = file_get_contents($postMergeHookPlaceholder);
+        $gitPostMergeHook = str_replace("**php_path**",$params['php_path'],$gitPostMergeHook);
+
+        // If existing pre-commit hook
+        // TODO: check if there's already a Hook of if Git is not installed
+        file_put_contents($postMergeHook,$gitPostMergeHook);
+        chmod($postMergeHook,0775);
+    }
+
+} else {
+
+    // Just (commit)
+    if ($params['export_hook'] && $params['control_version']=="git") {
+
+        // Commit-msg
+        // Let's change the tag **php_path**
+        $gitCommitMsgHook = file_get_contents($commitMsgPlaceholder);
+        $gitCommitMsgHook = str_replace("**php_path**",$params['php_path'],$gitCommitMsgHook);
+
+        // If existing pre-commit hook
+        // TODO: check if there's already a Hook of if Git is not installed
+        file_put_contents($commitMsgHook,$gitCommitMsgHook);
+        chmod($commitMsgHook,0775);
+
+        // Post-commit
+        // Let's change the tag **php_path**
+        $gitPostCommitHook = file_get_contents($postCommitPlaceholder);
+        $gitPostCommitHook = str_replace("**php_path**",$params['php_path'],$gitPostCommitHook);
+
+        // If existing pre-commit hook
+        // TODO: check if there's already a Hook of if Git is not installed
+        file_put_contents($postCommitHook,$gitPostCommitHook);
+        chmod($postCommitHook,0775);
+
+    }
+
+
 }
 
-if ($params['import_hook'] && $params['control_version']=="git") {
-
-    // Let's change the tag **php_path**
-    $gitPostMergeHook = file_get_contents($postMergeHookPlaceholder);
-    $gitPostMergeHook = str_replace("**php_path**",$params['php_path'],$gitPostMergeHook);
-
-    // If existing pre-commit hook
-    // TODO: check if there's already a Hook of ir Git is not installed
-    file_put_contents($postMergeHook,$gitPostMergeHook);
-    chmod($postMergeHook,0775);
-}
-
-// TODO: If use_staging_db, add git hook
+// TODO: If use_staging_db, add git hook, too
 
 
 

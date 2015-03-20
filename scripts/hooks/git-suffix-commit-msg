@@ -1,8 +1,7 @@
 #!/bin/bash
 # TODO: Check if already added
 
-# http://stackoverflow.com/questions/3284292/can-a-git-hook-automatically-add-files-to-the-commit
-# It remains the combination of commit-msg and post-commit
+# based on http://stackoverflow.com/questions/3284292/can-a-git-hook-automatically-add-files-to-the-commit
 
 # Get the root path of the project
 rootPath=$(readlink -f ./$(git rev-parse --show-cdup))
