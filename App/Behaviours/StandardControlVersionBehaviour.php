@@ -108,7 +108,8 @@ class StandardControlVersionBehaviour implements Behaviour {
         $query = $revisionModel->generateQueryWithRevisions($app,$revisions);
 
         // Now we run that query
-        Database::createDatabaseFromQuery($databaseName, $query, $app->config, 'staging');
+        $target = ($app->importEnv=="local") ? "target" : "staging";
+        Database::createDatabaseFromQuery($databaseName, $query, $app->config, $target);
 
     }
 
