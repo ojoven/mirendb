@@ -144,7 +144,6 @@ trait AppExporter {
             }
         }
 
-        print_r($sqlignore);
         $this->sqlignore = $sqlignore;
 
     }
