@@ -25,7 +25,7 @@ class App {
     // import environment
     public $importEnv;
 
-    // SQL Ignore
+    // SQL Ignore Model
     public $sqlignore;
 
     // dynamic variables, based on first comparators

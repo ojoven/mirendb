@@ -9,6 +9,9 @@ class StandardControlVersionBehaviour implements Behaviour {
         // First, we validate if the config.ini file is correct
         $this->_validateConfigurationOptions($app);
 
+        // Let's initialize the sqlignore file, too
+        $app->sqlignore = new SqlIgnore();
+
         // Connect to target database
         $app->target = Database::getTarget($app->config);
 
