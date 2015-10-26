@@ -9,6 +9,9 @@ class StandardControlVersionBehaviour implements Behaviour {
         // First, we validate if the config.ini file is correct
         $this->_validateConfigurationOptions($app);
 
+        // Let's initialize the sqlignore file, too
+        $app->sqlignore = new SqlIgnore();
+
         // Connect to target database
         $app->target = Database::getTarget($app->config);
 
@@ -108,7 +111,8 @@ class StandardControlVersionBehaviour implements Behaviour {
         $query = $revisionModel->generateQueryWithRevisions($app,$revisions);
 
         // Now we run that query
-        Database::createDatabaseFromQuery($databaseName, $query, $app->config, 'staging');
+        $target = ($app->importEnv=="local") ? "target" : "staging";
+        Database::createDatabaseFromQuery($databaseName, $query, $app->config, $target);
 
     }
 

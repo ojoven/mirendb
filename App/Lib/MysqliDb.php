@@ -695,6 +695,9 @@ class MysqliDb
 
         $results = array();
         // You may need to install mysqlnd Driver: http://stackoverflow.com/a/18040514 for get_result() to work
+        if (!method_exists($stmt, 'get_result')) {
+            throw new Exception("Please install mysqlnd Driver by running 'sudo apt-get install php5-mysqlnd; sudo service apache2 restart'");
+        }
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
             array_push($results,$row);

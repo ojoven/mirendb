@@ -8,9 +8,6 @@ trait AppExporter {
         $behaviour = BehaviourFactory::getBehaviour($this->config['global']['behaviour']);
         $behaviour->initialize($this);
 
-        // SQL Ignore
-        $this->parseSqlIgnore();
-
         // Dynamically we may need to skip from comparing data
         // For example, the first revision we create, it will be just a sql dump
         if (!$this->skip) {
@@ -100,7 +97,7 @@ trait AppExporter {
 
         foreach ($this->targetTables as $table) {
 
-            if (!$this->isTableInSqlIgnore($table)) {
+            if (!$this->sqlignore->isTableInSqlIgnore($table)) {
 
                 // If it's not a new table, but an existing one BUT no new / removed fields
                 if (in_array($table,$this->originTables) && (!in_array($table,$this->tablesWithNewFields)) && (!in_array($table,$this->tablesWithRemovedFields))) {
@@ -111,6 +108,7 @@ trait AppExporter {
 
                     // Removed Data
                     $removedDataTableTarget = $dataComparator->getRemovedDataTarget($dataOrigin,$dataTarget);
+                    $removedDataTableTarget = $this->sqlignore->validDataNotInSqlIgnore($table,$removedDataTableTarget,"removed");
                     if ($removedDataTableTarget) {
                         $data = DataQueryGenerator::generateQueryRemovedData($removedDataTableTarget,$table);
                         Result::addToResult($data);
@@ -119,6 +117,7 @@ trait AppExporter {
 
                     // New Data
                     $newDataTableTarget = $dataComparator->getNewDataTarget($dataOrigin,$dataTarget);
+                    $newDataTableTarget = $this->sqlignore->validDataNotInSqlIgnore($table,$newDataTableTarget,"new");
                     if ($newDataTableTarget) {
                         $data = DataQueryGenerator::generateQueryNewData($newDataTableTarget,$table,$this->target);
                         Result::addToResult($data);
@@ -130,41 +129,6 @@ trait AppExporter {
             }
 
         }
-
-    }
-
-    /** SQL Ignore **/
-    public function parseSqlIgnore() {
-
-        $file = file(dirname(ROOT_PATH) . "/.sqlignore");
-        $sqlignore = array();
-        foreach($file as $key => $line) {
-            if ($line[0]!="#") { // comments
-                array_push($sqlignore,trim($line));
-            }
-        }
-
-        print_r($sqlignore);
-        $this->sqlignore = $sqlignore;
-
-    }
-
-    public function isTableInSqlIgnore($table) {
-
-        foreach ($this->sqlignore as $ignore) {
-
-            //  simple tables
-            if ($table==$ignore) {
-                return true;
-            }
-
-            // tables with *
-            if (strpos($ignore,"*")!==FALSE && preg_match( '/^' . $ignore . '/' , $table)) {
-                return true;
-            }
-        }
-
-        return false;
 
     }
 
