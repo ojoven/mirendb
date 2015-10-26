@@ -11,7 +11,7 @@ List of things to do:
 * manage restore previous revisions
 * manage merging (seems complex!)
 * If it's a WP based project, change paths and absolute URLs
-* Add automatic sqlignore for WP, Drupal, Prestashop, Magento on configurator
+* Add automatic sqlignore for WlocalP, Drupal, Prestashop, Magento on configurator
 * Add behaviours for Flyway and Laravel migrations (though, needs to be said, this should work by itself without these tools)
 * Task Grunt, gulp
 
