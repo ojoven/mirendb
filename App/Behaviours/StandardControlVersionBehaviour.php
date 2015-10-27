@@ -110,6 +110,11 @@ class StandardControlVersionBehaviour implements Behaviour {
         $revisionModel = new Revision();
         $query = $revisionModel->generateQueryWithRevisions($app,$revisions);
 
+        // If needed, search and replace absolute URLs and paths (Wordpress)
+
+        $replacerModel = new Replacer();
+
+
         // Now we run that query
         $target = ($app->importEnv=="local") ? "target" : "staging";
         Database::createDatabaseFromQuery($databaseName, $query, $app->config, $target);

@@ -66,7 +66,7 @@ path_to_revisions=revisions/
 control_version=**control_version**
 add_export_hook=**export_hook**
 add_import_hook=**import_hook**
-; TODO: add this to the configurator?
+; Keep Revisions Database. Faster having set it to 1.
 keep_revisions_db=1
 
 ; BOTH FILE BEHAVIOUR
@@ -74,6 +74,15 @@ keep_revisions_db=1
 ; [both_file]
 ; origin_file=/path/to/origin.sql
 ; target_file=/path/to/target.sql
+
+; WORDPRESS ABSOLUTE URLs AND PATHS
+[wordpress]
+is_wordpress=**is_wordpress**
+url_local=**wp_url_local**
+path_local=**wp_path_local**
+url_staging=**wp_url_staging**
+path_staging=**wp_path_staging**
+
 
 ; BOTH DATABASE BEHAVIOUR
 
