@@ -27,6 +27,10 @@ $postCommitHook = $projectRootPath . "/.git/hooks/post-commit";
 $postMergeSuffixPlaceholder = $sqlRootPath . "/scripts/hooks/git-suffix-post-merge";
 $postMergeSuffixHook = $projectRootPath . "/.git/hooks/post-merge";
 
+// Webhooks
+$webhookFilePlaceholder = $sqlRootPath . "/scripts/hooks/webhook";
+$webhookFile = $projectRootPath . "/webhook.php";
+
 if (!file_exists($configFilePath)) {
     ScriptFunctions::showMessageLine("Your config file .sql/App/config.ini.default doesn't exist");
     exit;
@@ -80,13 +84,27 @@ ScriptFunctions::title("3. Control Version");
 $params['control_version'] = ScriptFunctions::returnOneOfTheOptionsOrDefault("git", array('git', 'svn'), ScriptFunctions::getUserInputValueFor("Which Control Version System are you using? - git/svn -", "git"));
 $params['export_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically export revision when committing?", "Y", "Y/n"));
 $params['import_hook'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to add a hook to automatically import revisions when pulling/updating?", "Y", "Y/n"));
+// TODO: Probably we'll better differentiate between import on local and import on staging environment
 $params['hooks_always'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to activate the hooks by default (Y) or to use the suffix --database in your commit messages (n) whenever you want the DB to be revisioned?", "Y", "Y/n"));
+if ($params['control_version']=="git") {
+    $gitProvider = ScriptFunctions::getUserInputValueFor("What Git service provider are you using?", "none", "github/bitbucket/none");
+    if ($gitProvider==="github") {
+
+        // We're able to generate a webhook for GitHub
+        ScriptFunctions::showMessageLine("To generate automatically the webhook we'll need to know the staging URL");
+        $stagingUrl = ScriptFunctions::getUserInputValueFor("Staging URL", "http://" . $projectName . ".yourstagingdomain.com");
+        $githubWebhookSecret = md5(uniqid());
+
+    }
+}
 
 /** STEP 4: Behaviour **/
 ScriptFunctions::title("4. Behaviour");
+/**
 ScriptFunctions::showMessageLine("You can use MirenDB's standard methodology to export/import revisions or integrate it with another DB control versioning system");
 $behaviour = ScriptFunctions::returnOneOfTheOptionsOrDefault("standard", array('standard', 'flyway', 'laravel', 'dbv'),ScriptFunctions::getUserInputValueFor("Which behaviour do you wanna use? - standard/flyway/laravel/dbv", "standard"));
 $params['behaviour'] = $behaviour . "_control_version";
+**/
 $params['data'] = ScriptFunctions::trueOrFalseDefaultTrue(ScriptFunctions::getUserInputValueFor("Do you want to have data - apart from schemas - under version control?", "Y", "Y/n"));
 
 /** STEP 5: Others - Wordpress, Environment, Logging **/
@@ -98,9 +116,9 @@ $params['is_wordpress'] = $isWordPress;
 if ($isWordPress) {
     ScriptFunctions::showMessageLine("As you probably know, WordPress uses absolute URLs and paths. Please enter the URL and path values for local and staging for automatic optimal DB import post-commit/post-pull.");
     $params['wp_url_local'] = ScriptFunctions::getUserInputValueFor("WP Local URL", $projectName . ".local.host");
-    $params['wp_path_local'] = ScriptFunctions::getUserInputValueFor("WP Local Path", "/var/www/html/" . $projectName);
-    $params['wp_url_staging'] = ScriptFunctions::getUserInputValueFor("WP Staging URL", $projectName . ".staging.host");
-    $params['wp_path_staging'] = ScriptFunctions::getUserInputValueFor("WP Staging Path", "/var/www/html/" . $projectName);
+    $params['wp_path_local'] = ScriptFunctions::getUserInputValueFor("WP Local Path", $projectRootPath);
+    $params['wp_url_staging'] = ScriptFunctions::getUserInputValueFor("WP Staging URL", isset($stagingUrl) ? $stagingUrl : $projectName . ".staging.host");
+    $params['wp_path_staging'] = ScriptFunctions::getUserInputValueFor("WP Staging Path", $projectRootPath);
 } else {
     $params['wp_url_local'] = $params['wp_path_local'] = $params['wp_url_staging'] = $params['wp_path_staging'] = ""; // Leave empty
 }
@@ -155,6 +173,10 @@ if ($params['hooks_always']) {
         // TODO: check if there's already a Hook of if Git is not installed
         file_put_contents($postMergeHook, $gitPostMergeHook);
         chmod($postMergeHook, 0775);
+
+        // Let's create a file for Webhooks (GitHub and Bitbucket support)
+        $gitPrecommitHook = file_get_contents($preCommitHookPlaceholder);
+        $gitPrecommitHook = str_replace("**php_path**", $params['php_path'], $gitPrecommitHook);
     }
 
 } else {
@@ -197,18 +219,31 @@ if ($params['hooks_always']) {
         chmod($postMergeSuffixHook, 0775);
     }
 
+}
 
+// Let's create also the webhook, if needed
+if (isset($githubWebhookSecret)) {
+    $webhook = file_get_contents($webhookFilePlaceholder);
+    $webhook = str_replace("**webhook_secret**", $githubWebhookSecret, $webhook);
+
+    file_put_contents($webhookFile, $webhook);
+    chmod($webhookFile, 0775);
 }
 
 // TODO: If use_staging_db, add git hook, too
 
 
-
-
 /** FINISH */
 ScriptFunctions::title("FINISHED!");
 ScriptFunctions::showMessageLine("Your configuration file has been successfully created on .sql/App/config.ini");
-ScriptFunctions::showMessageLine("If you selected to add export/import hooks your database is now under version control");
+if ($params['export_hook'] && $params['import_hook']) {
+    ScriptFunctions::showMessageLine("Your database is now under version control!");
+}
+if (isset($githubWebhookSecret)) {
+    ScriptFunctions::showMessageLine("Please add the following data into your Github repo's webhook's page:");
+    ScriptFunctions::showMessageLine("Payload URL: " . $stagingUrl);
+    ScriptFunctions::showMessageLine("Secret: " . $githubWebhookSecret);
+}
 ScriptFunctions::showMessageLine("-- Please remember to configure your .sqlignore file if you want some tables (or their data) not to be under version control --");
 ScriptFunctions::writeBreakLine();
 ScriptFunctions::showMessageLine("Cheers!");

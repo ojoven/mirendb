@@ -55,7 +55,7 @@ A configurator will ask you in a human way your credentials and preferences:
 ![MirenDB Configurator](https://github.com/ojoven/mirendb/blob/master/App/Project/configurator.png "MirenDB Configurator")
 
 
-Worflow
+Workflow
 ----------------
 The intent of MirenDB is to integrate in your workflow in the most stealthy way as possible. We've already succeeded on integrating
 it with GIT, by installing a pre-commit and a post-merge hook.
