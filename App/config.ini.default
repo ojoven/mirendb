@@ -17,7 +17,7 @@
 ; laravel_control_version [nyi] -> behave as a tool to track SQL revisions in the format of Laravel migrations
 ; flyway_control_version [nyi] -> behave as a tool to track SQL revisions in the format of Flyway migrations
 ; dbv_control_version [nyi] -> behave as a tool to track SQL revisions in the format of Dbv revisions
-behaviour=**behaviour**
+behaviour=standard_control_version
 
 ; DATA
 ; Shall we compare and extract the diff just of the tables schema, or to the data, too

@@ -15,7 +15,7 @@ if ('sha1=' . hash_hmac( 'sha1', $payload, $secret, false ) !== $_SERVER[ 'HTTP_
 
 // If secret valid, we call the post-merge hook
 $parentDir = dirname(__FILE__);
-$command = $parentDir . "/.git/post-merge";
+$command = $parentDir . "/.git/hooks/post-merge";
 exec($command);
 
 // Return success

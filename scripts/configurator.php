@@ -241,7 +241,7 @@ if ($params['export_hook'] && $params['import_hook']) {
 }
 if (isset($githubWebhookSecret)) {
     ScriptFunctions::showMessageLine("Please add the following data into your Github repo's webhook's page:");
-    ScriptFunctions::showMessageLine("Payload URL: " . $stagingUrl);
+    ScriptFunctions::showMessageLine("Payload URL: " . $stagingUrl . "/webhook.php");
     ScriptFunctions::showMessageLine("Secret: " . $githubWebhookSecret);
 }
 ScriptFunctions::showMessageLine("-- Please remember to configure your .sqlignore file if you want some tables (or their data) not to be under version control --");

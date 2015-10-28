@@ -8,10 +8,10 @@ TODO
 * ~~Add .sqlignore, like the .gitignore for DBs~~
 * ~~Logging console so the dev knows what's changing on DB~~
 * ~~import_revisions.php~~
+* If it's a WP based project, change paths and absolute URLs (almost there!)
 * optimize git/svn integration workflow
 * manage restore previous revisions
 * manage merging (seems complex!)
-* If it's a WP based project, change paths and absolute URLs
 * Add automatic sqlignore for WlocalP, Drupal, Prestashop, Magento on configurator
 * Add behaviours for Flyway and Laravel migrations (though, needs to be said, this should work by itself without these tools)
 * Task Grunt, gulp
@@ -20,6 +20,7 @@ KNOWN BUGS
 ------------------------
 * When used in Wordpress (and probably in another CMSs, too) the revisions show lots of line breaks that make the script crash
 * There's a problem with Primary Keys (Example: ERROR 1062 (23000) at line 166: Duplicate entry '96' for key 'PRIMARY')
+* We should check file permissions before clearing/removing anything
 
 CURRENTLY WORKING ON:
 ------------------------
